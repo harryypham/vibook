@@ -2,32 +2,455 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 229, 90%, 58%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  * {
+    @apply border-border;
   }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/PPNeueMontreal-Variable.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  /* background-color: #ebe6e1; */
+  background-image: url("/images/beams-basic-transparent.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: default !important;
+  scroll-behavior: smooth;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Apply the animation to the BookCard component */
+
+.book-card::before,
+.book-card::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #473bf0;
+  transition: all 0.4s linear;
+  z-index: -30;
+}
+
+.book-card::before {
+  top: 0 !important;
+  right: 100%;
+}
+
+.book-card:hover::before {
+  right: 0;
+}
+
+.book-card::after {
+  bottom: 0 !important;
+  left: 100%;
+}
+
+.book-card:hover::after {
+  left: 0;
+}
+
+.book-card-wrapper:hover .book-card {
+  border-color: transparent;
+}
+
+.book-card-wrapper::before,
+.book-card-wrapper::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: #473bf0;
+  transition: all 0.4s linear;
+  z-index: -30;
+}
+
+.book-card-wrapper::before {
+  left: 0 !important;
+  bottom: 100%;
+}
+
+.book-card-wrapper:hover::before {
+  bottom: 0;
+}
+
+.book-card-wrapper::after {
+  right: 0 !important;
+  top: 100%;
+}
+
+.book-card-wrapper:hover::after {
+  top: 0;
+}
+
+@media (max-width: 768px) {
+  .multiline-truncate {
+    display: none !important;
   }
+}
+.multiline-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-container {
+  /* Centering the input for demonstration */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-input {
+  border: 2px solid transparent; /* Make the border transparent to see the gradient */
+  outline: none; /* Remove default focus outline */
+  background-color: white; /* Background color of the input */
+  /* Create a gradient for the border */
+  background-image: linear-gradient(white, white),
+    linear-gradient(to right, #0066ff, #5046e6);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  /* box-shadow: 0 0 5px 0px #0066ff, 0 0 3px 1px #c593e9;  */
+  /* Apply the gradient to the border */
+  /* border-image: linear-gradient(to right, #ff7e5f, #feb47b) 1 stretch; */
+}
+.gradient-btn {
+  background-image: linear-gradient(to right, #0066ff, #7a90f9);
+}
+
+.rotating-curved-text {
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  right: 0;
+  letter-spacing: 0.025em;
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+  transform: translateX(50%) translateY(50%);
+  transition: all 0.4s linear;
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+  animation-delay: 2s;
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: translateX(50%) translateY(50%) rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: translateX(50%) translateY(50%) rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: translateX(50%) translateY(50%) rotate(360deg);
+    transform: translateX(50%) translateY(50%) rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes displaySVG {
+  0% {
+    opacity: 0.4;
+    transform: translateX(-50%) translateY(30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) stranslateY(30%);
+  }
+}
+
+#features img {
+  pointer-events: none;
+}
+
+#svg2 {
+  position: absolute;
+  /* top: 83%; */
+  left: 50%;
+  display: block;
+  /* height: 21vh; */
+  transform: translateX(-50%);
+  pointer-events: none;
+  /* background-color: black; */
+  animation: displaySVG 1s forwards;
+  animation-delay: 0.75s;
+}
+
+#path12 {
+  fill: #ffffff;
+  fill-opacity: 0;
+  fill-rule: evenodd;
+  stroke: none;
+}
+
+#path14 {
+  fill: none;
+
+  stroke: #0066ff;
+  stroke-width: 60.001;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 22.9256;
+  /* stroke-dasharray: none; */
+  stroke-opacity: 1;
+}
+#svg2 path {
+  /* fill: #333333; */
+  fill-opacity: 1;
+  fill-rule: nonzero;
+  stroke: none;
+}
+
+@keyframes colorCycle1 {
+  0% {
+    stop-color: #0066ff;
+  }
+  50% {
+    stop-color: #ff0002;
+  }
+  100% {
+    stop-color: #0066ff;
+  }
+}
+
+@keyframes colorCycle2 {
+  0% {
+    stop-color: #5046e6;
+  }
+  50% {
+    stop-color: #ffff00;
+  }
+  100% {
+    stop-color: #5046e6;
+  }
+}
+
+#strokeGradient stop:nth-child(1) {
+  animation: colorCycle1 5s infinite;
+}
+
+#strokeGradient stop:nth-child(2) {
+  animation: colorCycle2 5s infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 100000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.fade-out {
+  animation: fadeOutAnimation 1s forwards linear;
+}
+
+.gravity-fall {
+  animation: gravityFall 2s forwards;
+}
+
+@keyframes fadeOutAnimation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes gravityFall {
+  0% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(100vh) rotate(45deg); /* Adjust as needed */
+    opacity: 0.9;
+  }
+}
+/* 
+.custom-underline {
+  position: relative;
+  display: inline;
+}
+
+.custom-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px; 
+  height: 4px; 
+  background-color: #7a90f9; 
+  border-radius: 1px; 
+} */
+
+.custom-underline {
+  background-image: linear-gradient(transparent 60%, #7a90f9 60%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.5em;
+  background-position: 0 100%;
+}
+
+.ocean {
+  height: 5%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #3356f4;
+}
+
+.wave {
+  background: url("/images/wave_a.svg") repeat-x;
+  position: absolute;
+  top: -198px;
+  width: 6400px;
+  height: 198px;
+  animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.wave:nth-of-type(2) {
+  top: -175px;
+  animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
+    swell 7s ease -1.25s infinite;
+  opacity: 1;
+}
+
+@keyframes wave {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+  0%,
+  100% {
+    transform: translate3d(0, -25px, 0);
+  }
+  50% {
+    transform: translate3d(0, 5px, 0);
+  }
+}
+
+#features {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, grey 1px, transparent 1px),
+    linear-gradient(to bottom, grey 1px, transparent 1px);
+  background-clip: border-box;
+}
+#features::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 1) 90%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  filter: blur(0px); /* Apply the blur effect */
+  z-index: 0; /* Ensure the pseudo-element is above the grid background */
+  pointer-events: none; /* Allow interactions with the grid content */
+}
+
+.card:hover img {
+  opacity: 1;
 }
