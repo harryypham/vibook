@@ -2,25 +2,24 @@ import React, { useState, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
-import { FaRegHeart, FaRegStar, FaStar } from "react-icons/fa6"
+import { FaStar } from "react-icons/fa6"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Bookmark, Forward, Heart, Star } from "lucide-react"
+import { Bookmark, Forward, Heart } from "lucide-react"
 import ReactCurvedText from "react-curved-text"
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-export default function BookCard({
-  id,
-  title,
-  author,
-  type,
-  text,
-  offset,
-  time,
-}) {
+export default function BookCard({ id, title, author, type, text }) {
   const [isHovered, setIsHovered] = useState(false)
   const ref = useRef()
+
+  const calculateReadingTime = (text) => {
+    const wordsPerMinute = 225 // Average reading speed
+    const words = text.split(/\s+/).length // Split text into words and count
+    const readingTimeMinutes = words / wordsPerMinute
+    return Math.ceil(readingTimeMinutes) // Round up to the nearest whole number
+  }
 
   useGSAP(() => {
     // or refs...
@@ -42,7 +41,7 @@ export default function BookCard({
           <div className='book-card w-full h-full flex overflow-hidden cursor-default border-2 border-black'>
             <div className='relative -z-40 w-[170px] m-3 overflow-hidden'>
               <img
-                src={`/images/cover_${((id + offset) % 10) + 1}.jpeg`}
+                src={`/images/cover_${(id % 10) + 1}.jpeg`}
                 alt='Book Cover'
                 className={`object-contain pointer-events-none`}
               ></img>
@@ -66,11 +65,11 @@ export default function BookCard({
                     </div>
                   </div>
 
-                  <div className='multiline-truncate'>{text}</div>
+                  <div className='multiline-truncate'>{text.slice(0, 600)}</div>
                   <div className='italic flex text-sm mt-2 gap-1 md:gap-2 text-[#0066ff]'>
                     <p>{author}</p>
                     <span className='text-black not-italic'>•</span>
-                    <p>{time} phút</p>
+                    <p>{calculateReadingTime(text)} phút</p>
                   </div>
                   <div className='mt-2 flex gap-4'>
                     <Heart
@@ -94,19 +93,6 @@ export default function BookCard({
             </div>
           </div>
         </div>
-        {/* <div className='absolute w-full h-full left-[20%] top-0 z-10 pointer-events-none'>
-        <div className='relative w-full h-full'>
-          <Image
-            src={`/images/template_${deg > 0 ? 1 : 2}.png`}
-            alt='Book Cover'
-            className={`absolute object-contain z-10 pointer-events-none ${
-              isHovered ? "block" : "hidden"
-            }`}
-            style={{ transform: `scale(3) rotate(${deg * 10}deg)` }}
-            fill
-          />
-        </div>
-      </div> */}
       </Link>
       <ReactCurvedText
         width={100}

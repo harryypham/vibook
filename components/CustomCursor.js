@@ -49,7 +49,7 @@ const CustomCursor = () => {
         throttleSpeed = 20
         break
       case "Safari":
-        throttleSpeed = 20
+        throttleSpeed = 15
         break
       case "IE":
         throttleSpeed = 30
@@ -73,7 +73,7 @@ const CustomCursor = () => {
     const followCursor = () => {
       if (cursorRef.current) {
         const lerp = (start, end, factor) => start + (end - start) * factor
-        const speed = 0.1 // Lower speed for smoother following; adjust as needed
+        const speed = 0.11 // Lower speed for smoother following; adjust as needed
 
         // Directly use cursorXY for positioning, applying LERP for smoothness
         let nextX = lerp(
@@ -158,14 +158,7 @@ const CustomCursor = () => {
         transition: "all 0.1s ease",
       }}
       onClick={handleClick}
-    >
-      <div
-        id='instruct'
-        className='w-28 ml-8'
-      >
-        Click to feed the brain
-      </div>
-    </div>
+    ></div>
   )
 }
 

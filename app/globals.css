@@ -192,6 +192,9 @@ body {
 .gradient-btn {
   background-image: linear-gradient(to right, #0066ff, #7a90f9);
 }
+.gradient-btn-hover:hover {
+  background-image: linear-gradient(to right, #0066ff, #7a90f9);
+}
 
 .rotating-curved-text {
   position: absolute;
@@ -336,8 +339,8 @@ body {
   animation: fadeOutAnimation 1s forwards linear;
 }
 
-.gravity-fall {
-  animation: gravityFall 2s forwards;
+.fall {
+  animation: fall 2s forwards;
 }
 
 @keyframes fadeOutAnimation {
@@ -348,7 +351,7 @@ body {
     opacity: 0;
   }
 }
-@keyframes gravityFall {
+@keyframes fall {
   0% {
     transform: translateX(-50%) translateY(0) rotate(0deg);
   }
@@ -453,4 +456,39 @@ body {
 
 .card:hover img {
   opacity: 1;
+}
+
+/* Define the animation */
+@keyframes draw {
+  from {
+    stroke-dasharray: 0, 100;
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dasharray: 100, 0;
+    stroke-dashoffset: -100;
+  }
+}
+
+/* Apply the animation when the 'animate' class is added */
+#path20.animate {
+  animation: draw 5s linear forwards;
+}
+
+@keyframes boat {
+  0% {
+    left: 110%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+.animate-boat {
+  animation: boat 18s linear infinite;
+}
+
+nav:hover ~ #custom-cursor #instruct {
+  /* opacity: 0; */
+  display: none;
 }

@@ -1,12 +1,5 @@
 import React, { useRef } from "react"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Boxes,
   CircleUserRound,
@@ -21,7 +14,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-function CardSection() {
+function Features() {
   const features = useRef(null)
 
   useGSAP(
@@ -249,4 +242,4 @@ function CardSection() {
   )
 }
 
-export default CardSection
+export default Features
