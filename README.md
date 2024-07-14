@@ -1,6 +1,6 @@
 # ViBook
 
-[Demo](https://vibook.vercel.app)
+[Demo](https://vibook.vercel.app) (not responsive for smartphones yet, might add later)
 
 ## Project Description
 
