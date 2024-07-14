@@ -25,7 +25,8 @@ The inspiration for this project stemmed from a need to crawl a large number of 
 
 All images/sounds/books used on this website are either sourced from third-party websites or are licensed under their respective copyright holders. I do not claim ownership of any assets unless explicitly stated.
 
-Images are mostly sourced from Behance, Dribble, Pinterest
+Images are mostly sourced from Behance, Dribble, Pinterest.
+
 Books are crawled from [Việt Nam Thư Quán](http://vietnamthuquan.eu/truyen/)
 
 ## Getting Started
