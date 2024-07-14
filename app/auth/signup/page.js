@@ -1,13 +1,7 @@
-// Auth.js
 "use client"
 import React, { useState } from "react"
-import {
-  signIn,
-  signUp,
-  signOut,
-  signInWithGoogle,
-  signInWithGithub,
-} from "@/api/auth"
+import { useRouter } from "next/navigation"
+import { signUp, signInWithGoogle, signInWithGithub } from "@/api/auth"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -15,37 +9,25 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FcGoogle } from "react-icons/fc"
-import { FaGithub } from "react-icons/fa6"
+import { FaGithub, FaGoogle } from "react-icons/fa6"
+import { useSession } from "@/providers/SupabaseProvider"
 
 const Auth = () => {
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
+  const { session } = useSession()
+
+  if (session) {
+    router.push("/")
+  }
 
   const handleSignUp = async () => {
     try {
       const user = await signUp(email, password)
       console.log("User signed up:", user)
     } catch (error) {
-      setError(error.message)
-    }
-  }
-
-  const handleSignIn = async () => {
-    try {
-      const user = await signIn(email, password)
-      console.log("User signed in:", user)
-    } catch (error) {
-      setError(error.message)
-    }
-  }
-
-  const handleSignOut = async () => {
-    try {
-      await signOut()
-      console.log("User signed out")
-    } catch (error) {
-      setError(error.message)
+      console.log(error.message)
     }
   }
 
@@ -54,7 +36,7 @@ const Auth = () => {
       const user = await signInWithGoogle()
       console.log("User signed up:", user)
     } catch (error) {
-      setError(error.message)
+      console.log(error.message)
     }
   }
 
@@ -63,12 +45,21 @@ const Auth = () => {
       const user = await signInWithGithub()
       console.log("User signed up:", user)
     } catch (error) {
-      setError(error.message)
+      console.log(error.message)
     }
   }
 
   return (
     <div className='w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[100vh] max-h-screen'>
+      <div className='hidden bg-muted lg:block max-h-screen overflow-hidden'>
+        <Image
+          src='/images/Fishbowl.jpeg'
+          alt='Image'
+          width='1920'
+          height='1080'
+          className='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
+        />
+      </div>
       <div className='flex items-center justify-center'>
         <div className='mx-auto grid w-[350px] gap-6'>
           <div className='grid gap-2 text-center'>
@@ -83,6 +74,7 @@ const Auth = () => {
                 placeholder='vibook@example.com'
                 required
                 className=''
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className='grid gap-2'>
@@ -93,6 +85,7 @@ const Auth = () => {
                 id='password'
                 type='password'
                 required
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <Button
@@ -119,19 +112,23 @@ const Auth = () => {
 
             <Button
               variant='outline'
-              className='w-full '
+              className='w-full group hover:bg-primary hover:text-white'
               onClick={handleSignInWithGoogle}
             >
               <FcGoogle
-                className='mr-[0.625rem]'
-                size={20}
+                className='group-hover:hidden mr-[0.625rem]'
+                size={21}
+              />{" "}
+              <FaGoogle
+                className='hidden group-hover:block mr-[0.625rem]'
+                size={18}
               />{" "}
               Continue with Google
             </Button>
 
             <Button
               variant='outline'
-              className='w-full '
+              className='w-full hover:bg-primary hover:text-white'
               onClick={handleSignInWithGithub}
             >
               <FaGithub
@@ -142,15 +139,6 @@ const Auth = () => {
             </Button>
           </div>
         </div>
-      </div>
-      <div className='hidden bg-muted lg:block max-h-screen overflow-hidden'>
-        <Image
-          src='/images/Fishbowl.jpeg'
-          alt='Image'
-          width='1920'
-          height='1080'
-          className='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
-        />
       </div>
     </div>
   )

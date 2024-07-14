@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 
-const CustomCursor = () => {
+const CustomCursor = ({ parent }) => {
   const [cursorXY, setCursorXY] = useState({ x: -100, y: -100 })
-  const [hoverState, setHoverState] = useState(false)
   const cursorRef = useRef(null)
 
   const handleClick = () => {
@@ -61,10 +60,16 @@ const CustomCursor = () => {
       setCursorXY({ x: e.clientX, y: e.clientY })
     }
     const throttledMoveCursor = throttle(moveCursor, throttleSpeed) // Throttle function calls to once every 100ms
-    window.addEventListener("mousemove", throttledMoveCursor)
+    if (parent.current) {
+      parent.current.addEventListener("mousemove", throttledMoveCursor)
+    } else {
+      console.error("Parent element not found")
+    }
 
     return () => {
-      window.removeEventListener("mousemove", throttledMoveCursor)
+      if (parent.current) {
+        parent.current.addEventListener("mousemove", throttledMoveCursor)
+      }
     }
   }, [])
 
@@ -114,51 +119,26 @@ const CustomCursor = () => {
     }
   }, [cursorXY])
 
-  useEffect(() => {
-    const buttons = document.querySelectorAll("button, a")
-    const setHover = () => {
-      cursorRef.current.style.width = "0px"
-      cursorRef.current.style.height = "0px"
-      setHoverState(true)
-    }
-    const setNormal = () => {
-      console.log("left")
-      cursorRef.current.style.width = "20px"
-      cursorRef.current.style.height = "20px"
-      setHoverState(false)
-    }
-
-    buttons.forEach((button) => {
-      button.addEventListener("mouseenter", setHover)
-      button.addEventListener("mouseleave", setNormal)
-    })
-
-    return () => {
-      buttons.forEach((button) => {
-        button.removeEventListener("mouseenter", setHover)
-        button.removeEventListener("mouseleave", setNormal)
-      })
-    }
-  }, []) // Empty dependency array means this effect runs once on mount
-
   return (
-    <div
-      id='custom-cursor'
-      ref={cursorRef}
-      className='flex flex-col justify-center will-change-auto'
-      style={{
-        position: "absolute",
-        width: "20px",
-        height: "20px",
-        borderRadius: "50%",
-        backgroundColor: "#3356f4",
-        pointerEvents: "none",
-        transform: `translate(-50%, -50%)`,
-        zIndex: 9999, // Ensure cursor is above other elements
-        transition: "all 0.1s ease",
-      }}
-      onClick={handleClick}
-    ></div>
+    <>
+      <div
+        id='custom-cursor'
+        ref={cursorRef}
+        className='flex flex-col justify-center will-change-auto'
+        style={{
+          position: "absolute",
+          width: "20px",
+          height: "20px",
+          borderRadius: "50%",
+          backgroundColor: "#3356f4",
+          pointerEvents: "none",
+          transform: `translate(-50%, -50%)`,
+          zIndex: 999, // Ensure cursor is above other elements
+          transition: "all 0.1s ease",
+        }}
+        onClick={handleClick}
+      ></div>
+    </>
   )
 }
 

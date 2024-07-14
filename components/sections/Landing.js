@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
+import { useSession } from "@/providers/SupabaseProvider"
 import { useRouter } from "next/navigation"
 
 import { Button } from "../ui/button"
+import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -20,7 +22,10 @@ import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { TextPlugin } from "gsap/TextPlugin"
 
-import supabase from "@/api/supabaseClient"
+import AudioPlayer from "react-h5-audio-player"
+
+import { signOut } from "@/api/auth"
+import Link from "next/link"
 
 gsap.registerPlugin(TextPlugin, useGSAP)
 
@@ -30,12 +35,14 @@ export default function Landing() {
   const title2Ref = useRef()
   const title3Ref = useRef()
   const asteriskRef = useRef()
+  const canvasRef = useRef()
   const navRef = useRef()
   const miniRef = useRef()
   const texts = ["lớn nhất", "đa dạng nhất", "đẹp nhất"]
   const router = useRouter()
 
-  const [currentUser, setCurrentUser] = useState(null)
+  const { session } = useSession()
+  // const [currentUser, setCurrentUser] = useState(null)
   const [showInstruction, setShowInstruction] = useState(true)
 
   const [state, setState] = useState({
@@ -51,32 +58,21 @@ export default function Landing() {
     }))
   }
 
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+      console.log("User signed out")
+    } catch (error) {
+      setError(error.message)
+    }
+  }
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowInstruction(false)
     }, 5000) // Hide after 5 seconds
 
     return () => clearTimeout(timer) // Cleanup the timer
-  }, [])
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: sessionData, error: sessionError } =
-        await supabase.auth.getSession()
-      if (sessionError) {
-        console.error("Error getting session:", sessionError)
-        return
-      }
-
-      if (sessionData.session) {
-        setCurrentUser(sessionData.session.user)
-        console.log("User info:", sessionData.session.user)
-      } else {
-        console.log("No active session found.")
-      }
-    }
-
-    getUser()
   }, [])
 
   function applyStyles(element, styles) {
@@ -219,36 +215,50 @@ export default function Landing() {
       )}
 
       <nav
-        className='nav absolute top-4 left-0 px-8 w-full min-h-5 flex items-center justify-between z-50'
+        className='nav absolute top-0 left-0 bg-white px-8 py-4 w-full min-h-5 flex items-center justify-between z-[9999]'
         ref={navRef}
       >
         <div className='tracking-widest text-xl text-[#0066ff] font-bold cursor-pointer'>
           ViBook
         </div>
-        {currentUser ? (
-          <DropdownMenu>
+        {session ? (
+          <DropdownMenu className='z-[9999]'>
             <DropdownMenuTrigger asChild>
               <Button
-                variant='outline'
+                variant='avatar'
                 size='icon'
                 className='overflow-hidden rounded-full flex items-center justify-center'
               >
                 <Avatar>
                   <AvatarImage
-                    src='https://github.com/shadcn.png'
-                    alt='@shadcn'
+                    src={session.user?.user_metadata.avatar_url}
+                    alt='Avatar'
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>
+                    <Image
+                      src='/images/shadcn.jpeg'
+                      alt='@shadcn'
+                      width={40}
+                      height={40}
+                    />
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuLabel className='z-[9999]'>
+                My Account
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator className='z-[9999]' />
+              <DropdownMenuItem className='z-[9999]'>Settings</DropdownMenuItem>
+              <DropdownMenuItem className='z-[9999]'>Support</DropdownMenuItem>
+              <DropdownMenuSeparator className='z-[9999]' />
+              <DropdownMenuItem
+                className='z-[9999]'
+                onClick={handleSignOut}
+              >
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
@@ -271,9 +281,10 @@ export default function Landing() {
       <div
         className='absolute w-full h-full'
         id='canvas'
+        ref={canvasRef}
         onMouseDown={spawnImage}
       ></div>
-      <CustomCursor />
+      <CustomCursor parent={container} />
 
       <div className='w-full h-full flex justify-center items-center p-4'>
         <h1 className='text-6xl font-[500] text-center w-8/12 mb-56 tracking-tighter leading-[1.2em] pointer-events-none'>
@@ -349,6 +360,14 @@ export default function Landing() {
           d={brain_path_1}
         />
       </svg>
+      <AudioPlayer
+        autoPlay
+        loop
+        className='hidden'
+        src='/sounds/sound.wav'
+        onPlay={(e) => console.log("onPlay")}
+        // other props here
+      />
     </section>
   )
 }

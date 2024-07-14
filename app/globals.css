@@ -488,7 +488,14 @@ body {
   animation: boat 18s linear infinite;
 }
 
-nav:hover ~ #custom-cursor #instruct {
-  /* opacity: 0; */
-  display: none;
+/* nav:hover ~ #custom-cursor {
+  opacity: 0;
+  transition: opacity 0.5s;
+} */
+
+.block-picker input {
+  height: 2rem !important;
+  padding: 0.75rem 0.5rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
 }

@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className='w-full min-h-64 h-72 relative'>
       <img
-        src='images/boat.gif'
+        src='/images/boat.gif'
         className='absolute top-0 w-1/4 z-20 -translate-y-[45%] animate-boat'
       />
 
@@ -45,12 +45,12 @@ export default function Footer() {
             Let's C
             <img
               className='w-36 -mx-8 -mb-1 -scale-y-100'
-              src='images/orca.gif'
+              src='/images/orca.gif'
             />
             llab
             <img
               className='w-36 -mx-8 -mb-1'
-              src='images/orca.gif'
+              src='/images/orca.gif'
             />
             rate
           </div>

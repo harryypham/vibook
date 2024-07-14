@@ -1,0 +1,79 @@
+.tiptap :first-child {
+  margin-top: 0;
+}
+
+/* Code and preformatted text styles */
+.tiptap code {
+  background-color: #f7f3ff;
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
+  padding: 0.25em 0.3em;
+}
+
+.tiptap ul,
+.tiptap ol {
+  padding: 0 1rem;
+  margin: 0.5rem 1rem 0.5rem 0.4rem;
+}
+.tiptap ul {
+  list-style: disc;
+}
+.tiptap ol {
+  list-style: decimal;
+}
+
+.tiptap li p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  line-height: 1.1;
+  text-wrap: pretty;
+}
+
+.tiptap h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.tiptap h2 {
+  font-size: 1.5em;
+  margin: 0.83em 0;
+}
+
+.tiptap h3 {
+  font-size: 1.17em;
+  margin: 1em 0;
+}
+
+.tiptap h4 {
+  font-size: 1em;
+  margin: 1.33em 0;
+}
+
+.tiptap h5 {
+  font-size: 0.83em;
+  margin: 1.67em 0;
+}
+
+.tiptap h6 {
+  font-size: 0.67em;
+  margin: 2.33em 0;
+}
+
+.tiptap a {
+  text-decoration: underline;
+  color: #0066ff;
+  cursor: pointer;
+}
+.tiptap img {
+  display: block;
+  height: auto;
+  margin: 1rem 0;
+  max-width: 100%;
+}

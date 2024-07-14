@@ -46,7 +46,7 @@ export default function Browse({ page }) {
         <input
           type='text'
           placeholder='Search...'
-          class='search-input text-sm py-2 w-full px-3 rounded-md bg-[#ebe6e1]'
+          className='search-input text-sm py-2 w-full px-3 rounded-md bg-[#ebe6e1]'
         />
         <Button className='gradient-btn'>Search</Button>
       </div>
@@ -86,7 +86,7 @@ export default function Browse({ page }) {
                   {page}
                 </PaginationLink>
               </PaginationItem>
-              {page < 19 && (
+              {page < 1990 && (
                 <PaginationItem>
                   <PaginationLink href={`/?page=${page + 1}#browse-section`}>
                     {page + 1}
@@ -98,10 +98,12 @@ export default function Browse({ page }) {
                 <PaginationEllipsis />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href='#'>19</PaginationLink>
+                <PaginationLink href={`/?page=1990#browse-section`}>
+                  1990
+                </PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLast href='#' />
+                <PaginationLast href={`/?page=1990#browse-section`} />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
