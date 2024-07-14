@@ -6,6 +6,7 @@ import { BlockPicker } from "react-color"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Bookmark, Heart } from "lucide-react"
 
 import {
   Popover,
@@ -31,6 +32,8 @@ const ReadingView = ({ params, editorOpen, setEditorOpen }) => {
     contentColor: "#000000",
   })
   const [backgroundColor, setBackgroundColor] = useState("#ffffff")
+  const [loved, setLoved] = useState(false)
+  const [saved, setSaved] = useState(false)
 
   const handleChangeBackgroundColor = (color) => {
     setBackgroundColor(color.hex)
@@ -95,7 +98,35 @@ const ReadingView = ({ params, editorOpen, setEditorOpen }) => {
             >
               Tác giả: {author}. Thể loại: {type}
             </h4>
-            <div className='w-full overflow-hidden flex flex-wrap gap-4 my-6'>
+            <div className='mt-2 flex gap-4'>
+              {loved ? (
+                <Heart
+                  className='w-6 h-6'
+                  fill='#ff2f40'
+                  color='#ff2f40'
+                  onClick={() => setLoved(!loved)}
+                />
+              ) : (
+                <Heart
+                  className='w-6 h-6'
+                  onClick={() => setLoved(!loved)}
+                />
+              )}
+              {saved ? (
+                <Bookmark
+                  className='w-6 h-6'
+                  fill='#f6b141'
+                  color='#f6b141'
+                  onClick={() => setSaved(!saved)}
+                />
+              ) : (
+                <Bookmark
+                  className='w-6 h-6'
+                  onClick={() => setSaved(!saved)}
+                />
+              )}
+            </div>
+            <div className='w-full overflow-hidden flex flex-wrap gap-4 items-center my-4'>
               <Combobox
                 fontSize={fontSize}
                 changeFontSize={setFontSize}

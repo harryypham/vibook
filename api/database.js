@@ -11,13 +11,24 @@ export const searchTitle = async (query) => {
   return data
 }
 
+export const getAllTypes = async () => {
+  //   const { data, error } = await supabase
+  //     .from("books")
+  //     .select("type")
+  //     .distinct()
+  const { data, error } = await supabase.rpc("get_distinct_types")
+  if (error) {
+    throw error
+  }
+  return data
+}
+
 export const queryRandomBooks = async (type) => {
   const { data, error } = await supabase
     .from("books")
-    .select()
+    .select("*")
     .eq("type", type)
-    .order("random")
-    .range(0, 10)
+    .range(0, 20)
   if (error) {
     throw error
   }
