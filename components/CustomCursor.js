@@ -4,10 +4,6 @@ const CustomCursor = ({ parent }) => {
   const [cursorXY, setCursorXY] = useState({ x: -100, y: -100 })
   const cursorRef = useRef(null)
 
-  const handleClick = () => {
-    cursorRef.current.style.backgroundColor = "black"
-  }
-
   const detectBrowser = () => {
     const userAgent = navigator.userAgent
     if (userAgent.indexOf("Chrome") > -1) {
@@ -16,11 +12,17 @@ const CustomCursor = ({ parent }) => {
       return "Firefox"
     } else if (userAgent.indexOf("Safari") > -1) {
       return "Safari"
-    } else if (userAgent.indexOf("MSIE") > -1 || !!document.documentMode) {
-      return "IE"
     } else {
       return "Other"
     }
+  }
+
+  const moveCursor = (e) => {
+    setCursorXY({ x: e.clientX, y: e.clientY })
+  }
+
+  const handleClick = () => {
+    cursorRef.current.style.backgroundColor = "black"
   }
 
   const throttle = (func, limit) => {
@@ -38,6 +40,7 @@ const CustomCursor = ({ parent }) => {
 
   useEffect(() => {
     const browser = detectBrowser()
+
     let throttleSpeed
 
     switch (browser) {
@@ -50,16 +53,11 @@ const CustomCursor = ({ parent }) => {
       case "Safari":
         throttleSpeed = 15
         break
-      case "IE":
-        throttleSpeed = 30
-        break
       default:
         throttleSpeed = 18
     }
-    const moveCursor = (e) => {
-      setCursorXY({ x: e.clientX, y: e.clientY })
-    }
-    const throttledMoveCursor = throttle(moveCursor, throttleSpeed) // Throttle function calls to once every 100ms
+
+    const throttledMoveCursor = throttle(moveCursor, throttleSpeed)
     if (parent.current) {
       parent.current.addEventListener("mousemove", throttledMoveCursor)
     } else {
@@ -80,7 +78,6 @@ const CustomCursor = ({ parent }) => {
         const lerp = (start, end, factor) => start + (end - start) * factor
         const speed = 0.11 // Lower speed for smoother following; adjust as needed
 
-        // Directly use cursorXY for positioning, applying LERP for smoothness
         let nextX = lerp(
           cursorRef.current.style.left
             ? parseInt(cursorRef.current.style.left, 10)
@@ -106,7 +103,7 @@ const CustomCursor = ({ parent }) => {
 
         cursorRef.current.style.left = `${nextX}px`
         cursorRef.current.style.top = `${nextY}px`
-        cursorRef.current.style.transform = "translate(-50%, -50%)" // Keep centered on cursor
+        cursorRef.current.style.transform = "translate(-50%, -50%)"
 
         animationFrameId = requestAnimationFrame(followCursor)
       }
@@ -115,7 +112,7 @@ const CustomCursor = ({ parent }) => {
     followCursor()
 
     return () => {
-      cancelAnimationFrame(animationFrameId) // Cancel the animation frame request when the component unmounts
+      cancelAnimationFrame(animationFrameId)
     }
   }, [cursorXY])
 
@@ -133,7 +130,7 @@ const CustomCursor = ({ parent }) => {
           backgroundColor: "#3356f4",
           pointerEvents: "none",
           transform: `translate(-50%, -50%)`,
-          zIndex: 999, // Ensure cursor is above other elements
+          zIndex: 999,
           transition: "all 0.1s ease",
         }}
         onClick={handleClick}

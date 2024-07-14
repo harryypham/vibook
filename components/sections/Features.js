@@ -1,4 +1,5 @@
 import React, { useRef } from "react"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Boxes,
@@ -8,13 +9,14 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react"
+
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-function Features() {
+const Features = () => {
   const features = useRef(null)
 
   useGSAP(
@@ -41,16 +43,6 @@ function Features() {
       ref={features}
       className='w-full min-h-[120vh] py-28 pb-36 flex flex-col relative items-center gap-10 overflow-hidden'
     >
-      {/* <img
-        src='/images/book2.png'
-        className='absolute left-5 top-5 w-40'
-      /> */}
-      {/* <Lottie
-        className='absolute top-0 left-0 w-16'
-        animationData={eyeAnimation}
-        loop={true}
-      /> */}
-
       <h1 className='text-6xl font-semibold tracking-tight text-primary pb-10'>
         Features
       </h1>
@@ -59,10 +51,6 @@ function Features() {
           id='row1'
           className=' row w-full grid grid-cols-3 bg-black'
         >
-          {/* <img
-              src='/images/bookk.png'
-              className='absolute left-0 bottom-0 w-48 z-20 -rotate-90 translate-x-[-61%]'
-            /> */}
           <Card>
             <img
               src='images/star.gif'
@@ -117,11 +105,6 @@ function Features() {
               </p>
             </CardContent>
           </Card>
-          {/* <div className='relative'>
-            <img
-              src='/images/book3.png'
-              className='absolute right-[-10%] top-0 w-56 translate-y-[-50%] z-20'
-            /> */}
 
           <Card>
             <img
@@ -152,7 +135,6 @@ function Features() {
             </CardContent>
           </Card>
         </div>
-        {/* </div> */}
         <div
           id='row2'
           className='row w-full grid grid-cols-3 bg-black'

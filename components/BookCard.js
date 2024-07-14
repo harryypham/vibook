@@ -1,30 +1,31 @@
 import React, { useState, useRef } from "react"
+import Link from "next/link"
+
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
-import { FaStar } from "react-icons/fa6"
-import Link from "next/link"
+
 import { Skeleton } from "@/components/ui/skeleton"
+import { FaStar } from "react-icons/fa6"
 import { Bookmark, Forward, Heart } from "lucide-react"
 import ReactCurvedText from "react-curved-text"
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-export default function BookCard({ id, title, author, type, text }) {
+const BookCard = ({ id, title, author, type, text }) => {
   const [isHovered, setIsHovered] = useState(false)
   const ref = useRef()
 
-  const calculateReadingTime = (text) => {
-    const wordsPerMinute = 225 // Average reading speed
-    const words = text.split(/\s+/).length // Split text into words and count
-    const readingTimeMinutes = words / wordsPerMinute
-    return Math.ceil(readingTimeMinutes) // Round up to the nearest whole number
-  }
-
   useGSAP(() => {
-    // or refs...
     gsap.from(ref.current, { scrollTrigger: ref.current, y: 100, duration: 1 })
   }, [id])
+
+  const calculateReadingTime = (text) => {
+    const wordsPerMinute = 225
+    const words = text.split(/\s+/).length
+    const readingTimeMinutes = words / wordsPerMinute
+    return Math.ceil(readingTimeMinutes)
+  }
 
   return (
     <div
@@ -118,6 +119,8 @@ export default function BookCard({ id, title, author, type, text }) {
     </div>
   )
 }
+
+export default BookCard
 
 export function BookCardSkeleton() {
   return (

@@ -14,7 +14,6 @@ export const signUp = async (email, password) => {
   return data
 }
 
-// Sign In Function
 export const signIn = async (email, password) => {
   const { user, error } = await supabase.auth.signIn({ email, password })
   if (error) {
@@ -43,7 +42,6 @@ export const signInWithGithub = async () => {
   return user
 }
 
-// Sign Out Function
 export const signOut = async () => {
   const { error } = await supabase.auth.signOut()
   if (error) {

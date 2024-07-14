@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useSession } from "@/providers/SupabaseProvider"
 import { useRouter } from "next/navigation"
+import dynamic from "next/dynamic"
 
-import { Button } from "../ui/button"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -14,22 +15,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import CustomCursor from "../CustomCursor"
-import Lottie from "lottie-react"
-import ClickAnimation from "@/public/images/click.json"
-import { brain_path_0, brain_path_1 } from "../BrainPath"
 
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { TextPlugin } from "gsap/TextPlugin"
-
-import AudioPlayer from "react-h5-audio-player"
-
-import { signOut } from "@/api/auth"
-import Link from "next/link"
-
 gsap.registerPlugin(TextPlugin, useGSAP)
 
-export default function Landing() {
+import { signOut } from "@/api/auth"
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false }) //this cause error if import normally
+import ClickAnimation from "@/public/images/click.json"
+import { brain_path_0, brain_path_1 } from "../BrainPath"
+
+const Landing = () => {
+  const texts = ["lớn nhất", "đa dạng nhất", "đẹp nhất"]
+
   const container = useRef()
   const title1Ref = useRef()
   const title2Ref = useRef()
@@ -38,18 +38,17 @@ export default function Landing() {
   const canvasRef = useRef()
   const navRef = useRef()
   const miniRef = useRef()
-  const texts = ["lớn nhất", "đa dạng nhất", "đẹp nhất"]
   const router = useRouter()
 
-  const { session } = useSession()
-  // const [currentUser, setCurrentUser] = useState(null)
+  const [audioLoaded, setAudioLoaded] = useState(false)
   const [showInstruction, setShowInstruction] = useState(true)
-
   const [state, setState] = useState({
     textIdx: 0,
     first: true,
     brainGrowth: 0,
   })
+
+  const { session } = useSession()
 
   const updateState = (newState) => {
     setState((prevState) => ({
@@ -67,15 +66,7 @@ export default function Landing() {
     }
   }
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowInstruction(false)
-    }, 5000) // Hide after 5 seconds
-
-    return () => clearTimeout(timer) // Cleanup the timer
-  }, [])
-
-  function applyStyles(element, styles) {
+  const applyStyles = (element, styles) => {
     for (const property in styles) {
       if (styles.hasOwnProperty(property)) {
         element.style[property] = styles[property]
@@ -83,9 +74,11 @@ export default function Landing() {
     }
   }
 
-  function spawnImage(e) {
+  const spawnImage = (e) => {
+    if (typeof document === "undefined") return
     const cursor = document.querySelector("#custom-cursor")
     // const cursor_instruct = document.querySelector("#instruct")
+
     applyStyles(cursor, {
       width: "100px",
       height: "30px",
@@ -94,6 +87,7 @@ export default function Landing() {
     // applyStyles(cursor_instruct, {
     //   display: "none",
     // })
+
     setTimeout(() => {
       applyStyles(cursor, {
         width: "20px",
@@ -103,7 +97,7 @@ export default function Landing() {
     }, 500)
 
     const img = document.createElement("img")
-    img.src = `/images/book_${Math.floor(Math.random() * 5) + 1}.svg` // Replace with your image path
+    img.src = `/images/book_${Math.floor(Math.random() * 5) + 1}.svg` // Random book image
     applyStyles(img, {
       position: "absolute",
       left: e.pageX - e.target.offsetLeft + "px",
@@ -119,7 +113,7 @@ export default function Landing() {
     fadeOutAndRemoveSVG(img)
   }
 
-  function fadeOutAndRemoveSVG(element) {
+  const fadeOutAndRemoveSVG = (element) => {
     if (element) {
       element.classList.add("fall")
 
@@ -130,9 +124,46 @@ export default function Landing() {
     }
   }
 
+  const handleAudioLoad = () => {
+    setAudioLoaded(true)
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowInstruction(false)
+    }, 5000) // Hide after 5 seconds
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (audioLoaded) {
+      const audio = document.getElementById("background-audio")
+      const playAudio = () => {
+        audio.play().catch((error) => {
+          console.log("Autoplay was prevented:", error)
+        })
+      }
+
+      // Try to play the audio on component mount
+      playAudio()
+
+      // Add event listener to play audio on user interaction
+      document.addEventListener("click", playAudio)
+
+      return () => {
+        document.removeEventListener("click", playAudio)
+      }
+    }
+  }, [audioLoaded])
+
   useGSAP(() => {
     const tl = gsap.timeline()
     if (!state.first) {
+      title1Ref.current.textContent = "Khám phá thế giới sách điện tử "
+      title3Ref.current.textContent = " Việt Nam"
+      asteriskRef.current.textContent = "*"
+
       tl.to(title2Ref.current, {
         text: {
           value: texts[state.textIdx],
@@ -192,6 +223,11 @@ export default function Landing() {
           },
           duration: 0.1,
           ease: "none",
+          // onComplete: () => {
+          //   setTitle1("Khám phá thế giới sách điện tử ")
+          //   setTitle3(" Việt Nam")
+          //   setAsterisk("*")
+          // },
         })
     }
   }, [state.textIdx])
@@ -201,6 +237,13 @@ export default function Landing() {
       className='relative w-full overflow-hidden h-screen px-4'
       ref={container}
     >
+      <audio
+        id='background-audio'
+        src='/sounds/sound.wav'
+        autoPlay
+        loop
+        onCanPlayThrough={handleAudioLoad}
+      ></audio>
       {showInstruction && (
         <div className='absolute left-1/2 top-2/3 -translate-x-1/2 -translate-y-1/2 flex '>
           <Lottie
@@ -289,6 +332,7 @@ export default function Landing() {
       <div className='w-full h-full flex justify-center items-center p-4'>
         <h1 className='text-6xl font-[500] text-center w-8/12 mb-56 tracking-tighter leading-[1.2em] pointer-events-none'>
           <span ref={title1Ref}></span>
+          <br></br>
           <span
             ref={title2Ref}
             className='gradient-btn'
@@ -360,14 +404,8 @@ export default function Landing() {
           d={brain_path_1}
         />
       </svg>
-      <AudioPlayer
-        autoPlay
-        loop
-        className='hidden'
-        src='/sounds/sound.wav'
-        onPlay={(e) => console.log("onPlay")}
-        // other props here
-      />
     </section>
   )
 }
+
+export default Landing

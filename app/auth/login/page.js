@@ -1,7 +1,7 @@
 // Auth.js
 "use client"
 import React, { useState } from "react"
-import { signIn, signUp, signOut, signInWithGoogle } from "@/api/auth"
+import { signIn, signInWithGoogle, signInWithGithub } from "@/api/auth"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -10,15 +10,20 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub, FaGoogle } from "react-icons/fa6"
+import { useSession } from "@/providers/SupabaseProvider"
 
-const Auth = () => {
+const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const { session } = useSession()
+
+  if (session) {
+    router.push("/")
+  }
 
   const handleSignIn = async () => {
     try {
       const user = await signIn(email, password)
-      console.log("User signed in:", user)
     } catch (error) {
       setError(error.message)
     }
@@ -26,9 +31,7 @@ const Auth = () => {
 
   const handleSignInWithGoogle = async () => {
     try {
-      console.log("signing in...")
       const user = await signInWithGoogle()
-      console.log("User signed up:", user)
     } catch (error) {
       setError(error.message)
     }
@@ -36,7 +39,6 @@ const Auth = () => {
   const handleSignInWithGithub = async () => {
     try {
       const user = await signInWithGithub()
-      console.log("User signed up:", user)
     } catch (error) {
       setError(error.message)
     }
@@ -143,4 +145,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default Login

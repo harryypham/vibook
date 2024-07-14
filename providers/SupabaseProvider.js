@@ -26,9 +26,6 @@ export const SupabaseProvider = ({ children }) => {
     }
   }, [])
 
-  const signIn = () => setIsSignedIn(true)
-  const signOut = () => setIsSignedIn(false)
-
   return (
     <SessionContext.Provider value={{ session }}>
       {children}

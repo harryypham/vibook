@@ -7,7 +7,7 @@ import Features from "@/components/sections/Features"
 import Footer from "@/components/sections/Footer"
 import Browse from "@/components/sections/Browse"
 
-export default function Home() {
+const Home = () => {
   const router = useRouter()
   const page = parseInt(useSearchParams().get("page")) || 1
   if (page > 1990) {
@@ -23,3 +23,5 @@ export default function Home() {
     </main>
   )
 }
+
+export default Home

@@ -1,4 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ViBook
+
+[Demo](https://vibook.vercel.app)
+
+## Project Description
+
+This project is a Vietnamese eBook website designed to provide a comprehensive and user-friendly platform for reading and managing eBooks. The website includes several advanced features aimed at enhancing the reading experience and facilitating efficient study and research.
+
+## Key Features
+
+- Built-in Editor for Note-Taking: Easily annotate and take notes directly within the eBooks. Notes are saved and can be accessed anytime.
+- Semantic Search: Utilize advanced vector-based search technology to find books and content semantically, ensuring more accurate and relevant search results. (not yet)
+- Highly Customizable UI: Tailor the user interface to your preferences with various customization options, making the reading experience more comfortable and personalized.
+- Share Books and Notes: Share your favorite books and notes with others easily. (not yet)
+
+## Project Status
+
+This project was developed over the course of approximately one week and, while functional, it is not yet complete. (Also first time learning Next.js so spaghetti code is expected. I might finish it and add more features in the future)
+
+## Inspiration
+
+The inspiration for this project stemmed from a need to crawl a large number of Vietnamese books for an NLP (Natural Language Processing) project. During this process, I noticed a lack of free, aesthetically pleasing, and functional reading websites for Vietnamese books. This realization drove the creation of this project, aiming to fill that gap and provide a valuable resource for Vietnamese readers and researchers.
+
+## Disclaimer
+
+All images/sounds/books used on this website are either sourced from third-party websites or are licensed under their respective copyright holders. I do not claim ownership of any assets unless explicitly stated.
+
+Images are mostly sourced from Behance, Dribble, Pinterest
+Books are crawled from [Việt Nam Thư Quán](http://vietnamthuquan.eu/truyen/)
 
 ## Getting Started
 
@@ -15,22 +43,3 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

@@ -1,13 +1,11 @@
 "use client"
-import { useState, useCallback } from "react"
+import { useState } from "react"
 
 import {
   Bold,
-  Strikethrough,
   Italic,
   List,
   ListOrdered,
-  Heading2,
   Underline,
   Highlighter,
   Code,
@@ -17,6 +15,7 @@ import {
   Download,
   Copy,
 } from "lucide-react"
+
 import {
   Popover,
   PopoverContent,
@@ -35,57 +34,48 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Separator } from "@/components/ui/separator"
+import { Toggle } from "@/components/ui/toggle"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs"
-import prettier from "prettier/standalone"
-import parserHtml from "prettier/parser-html"
-
-import { Toggle } from "@/components/ui/toggle"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
 
 import "./Tiptap.css"
 
-export default function Toolbar({ editor, setEditorContent }) {
-  if (!editor) return null
+const Toolbar = ({ editor, setEditorContent }) => {
   const [headingLevel, setHeadingLevel] = useState(1)
   const [headingOpen, setHeadingOpen] = useState(false)
+
   const [linkOpen, setLinkOpen] = useState(false)
   const [link, setLink] = useState("")
+
   const [imageLinkOpen, setImageLinkOpen] = useState(false)
   const [imageLink, setImageLink] = useState("")
+
   const [exportOpen, setExportOpen] = useState(false)
   const [htmlExportDialogOpen, setHtmlExportDialogOpen] = useState(false)
-  const [textExportDialogOpen, setTextExportDialogOpen] = useState(false)
   const [formattedHtml, setFormattedHtml] = useState("")
+  const [textExportDialogOpen, setTextExportDialogOpen] = useState(false)
 
   const addLink = () => {
-    const previousUrl = editor.getAttributes("link").href
-    const url = link
-    console.log(url)
-    // const url = window.prompt("URL", previousUrl)
-
-    // cancelled
-    if (url === null) {
+    if (link === null) {
       return
     }
 
-    // empty
-    if (url === "") {
+    if (link === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run()
 
       return
     }
 
-    // update link
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
+    editor.chain().focus().extendMarkRange("link").setLink({ href: link }).run()
     setLinkOpen(false)
   }
 
@@ -122,6 +112,8 @@ export default function Toolbar({ editor, setEditorContent }) {
     const content = formatHtml(editor.getHTML())
     setEditorContent(content)
   }
+
+  if (!editor) return null
 
   return (
     <div className='border-b border-input '>
@@ -344,7 +336,6 @@ export default function Toolbar({ editor, setEditorContent }) {
             <DialogTitle className='mb-2'>HTML</DialogTitle>
             <DialogDescription>
               {htmlExportDialogOpen && (
-                // <div className='border rounded-md p-3'>{editor.getHTML()}</div>
                 <div>
                   <Button
                     className='absolute right-6 rounded-none'
@@ -365,12 +356,12 @@ export default function Toolbar({ editor, setEditorContent }) {
                     }}
                     wrapLines={true}
                     customStyle={{
-                      maxHeight: "400px", // Set a maximum height
-                      overflowY: "auto", // Enable vertical scrolling
-                      border: "1px solid #ddd", // Optional: Add a border
-                      padding: "10px", // Optional: Add padding
-                      whiteSpace: "pre-wrap", // Ensure text wraps within the container
-                      wordBreak: "break-word", // Break long words to fit within the container
+                      maxHeight: "400px",
+                      overflowY: "auto",
+                      border: "1px solid #ddd",
+                      padding: "10px",
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-word",
                     }}
                   >
                     {formattedHtml}
@@ -391,7 +382,6 @@ export default function Toolbar({ editor, setEditorContent }) {
             <DialogTitle className='mb-2'>Text</DialogTitle>
             <DialogDescription>
               {textExportDialogOpen && (
-                // <div className='border rounded-md p-3'>{editor.getHTML()}</div>
                 <div className='border p-3 rounded-md'>{editor.getText()}</div>
               )}
             </DialogDescription>
@@ -407,3 +397,5 @@ export default function Toolbar({ editor, setEditorContent }) {
     </div>
   )
 }
+
+export default Toolbar

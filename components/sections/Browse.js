@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
+
 import { Button } from "@/components/ui/button"
-import BookCard, { BookCardSkeleton } from "@/components/BookCard"
 import {
   Pagination,
   PaginationContent,
@@ -10,10 +10,20 @@ import {
   PaginationLast,
   PaginationLink,
 } from "@/components/ui/pagination"
-import supabase from "@/api/supabaseClient"
+import { Input } from "@/components/ui/input"
+import BookCard, { BookCardSkeleton } from "@/components/BookCard"
 
-export default function Browse({ page }) {
+import supabase from "@/api/supabaseClient"
+import { searchTitle } from "@/api/database"
+
+const Browse = ({ page }) => {
   const [books, setBooks] = useState([])
+  const [query, setQuery] = useState("")
+
+  const handleSearch = async () => {
+    const data = await searchTitle(query)
+    setBooks(data.slice(0, 10))
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,12 +53,18 @@ export default function Browse({ page }) {
         id='browse'
         className='search-container w-full flex gap-2'
       >
-        <input
+        <Input
           type='text'
           placeholder='Search...'
           className='search-input text-sm py-2 w-full px-3 rounded-md bg-[#ebe6e1]'
-        />
-        <Button className='gradient-btn'>Search</Button>
+          onChange={(e) => setQuery(e.target.value)}
+        ></Input>
+        <Button
+          className='gradient-btn'
+          onClick={handleSearch}
+        >
+          Search
+        </Button>
       </div>
       <section className='flex flex-col w-full gap-4'>
         {books.length != 0
@@ -112,3 +128,5 @@ export default function Browse({ page }) {
     </section>
   )
 }
+
+export default Browse

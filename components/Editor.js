@@ -1,6 +1,7 @@
 "use client"
 
 import { useEditor, EditorContent } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
 import Highlight from "@tiptap/extension-highlight"
 import Underline from "@tiptap/extension-underline"
 import Code from "@tiptap/extension-code"
@@ -9,13 +10,11 @@ import ListItem from "@tiptap/extension-list-item"
 import Link from "@tiptap/extension-link"
 import Image from "@tiptap/extension-image"
 
-import StarterKit from "@tiptap/starter-kit"
 import Toolbar from "./Toolbar"
 
 import "./Tiptap.css"
-import { useState } from "react"
 
-function Tiptap({ editorContent, setEditorContent }) {
+const Editor = ({ editorContent, setEditorContent }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -57,4 +56,4 @@ function Tiptap({ editorContent, setEditorContent }) {
   )
 }
 
-export default Tiptap
+export default Editor

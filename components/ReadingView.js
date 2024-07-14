@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react"
-import Combobox from "@/components/ui/combobox.js"
+import Combobox from "@/components/ui/combobox"
 import supabase from "@/api/supabaseClient"
 import { BlockPicker } from "react-color"
 import { Label } from "@/components/ui/label"
@@ -13,17 +13,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export default function ReadingView({ params, editorOpen, setEditorOpen }) {
+const ReadingView = ({ params, editorOpen, setEditorOpen }) => {
+  const containerRef = useRef(null)
+
+  const [isLoading, setIsLoading] = useState(true)
+
   const [book, setBook] = useState(null)
   const [title, setTitle] = useState(null)
   const [author, setAuthor] = useState(null)
   const [type, setType] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const containerRef = useRef(null)
 
   const [textColorOpen, setTextColorOpen] = useState(false)
   const [fontSize, setFontSize] = useState("")
-
   const [colorState, setColorState] = useState({
     titleColor: "#000000",
     authorColor: "#000000",
@@ -47,20 +48,13 @@ export default function ReadingView({ params, editorOpen, setEditorOpen }) {
     setTextColorOpen(false)
   }
 
-  const openEditor = () => {
-    console.log(editorOpen)
-    setEditorOpen(!editorOpen)
-  }
-
   useEffect(() => {
     const fetchData = async () => {
-      console.log(params.id) // this is undefined
       if (!params.id) return
       const { data, error } = await supabase
         .from("books")
         .select("*")
         .eq("id", params.id)
-      console.log(data[0])
       if (error) {
         console.log(error)
       } else {
@@ -205,3 +199,5 @@ export default function ReadingView({ params, editorOpen, setEditorOpen }) {
     </>
   )
 }
+
+export default ReadingView

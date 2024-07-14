@@ -12,7 +12,7 @@ import { FcGoogle } from "react-icons/fc"
 import { FaGithub, FaGoogle } from "react-icons/fa6"
 import { useSession } from "@/providers/SupabaseProvider"
 
-const Auth = () => {
+const SignUp = () => {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -25,7 +25,6 @@ const Auth = () => {
   const handleSignUp = async () => {
     try {
       const user = await signUp(email, password)
-      console.log("User signed up:", user)
     } catch (error) {
       console.log(error.message)
     }
@@ -34,7 +33,6 @@ const Auth = () => {
   const handleSignInWithGoogle = async () => {
     try {
       const user = await signInWithGoogle()
-      console.log("User signed up:", user)
     } catch (error) {
       console.log(error.message)
     }
@@ -43,7 +41,6 @@ const Auth = () => {
   const handleSignInWithGithub = async () => {
     try {
       const user = await signInWithGithub()
-      console.log("User signed up:", user)
     } catch (error) {
       console.log(error.message)
     }
@@ -144,4 +141,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default SignUp

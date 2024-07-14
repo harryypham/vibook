@@ -4,7 +4,7 @@ import Link from "next/link"
 import Wave from "react-wavify"
 import { MoveRight } from "lucide-react"
 
-export default function Footer() {
+const Footer = () => {
   return (
     <footer className='w-full min-h-64 h-72 relative'>
       <img
@@ -69,13 +69,14 @@ export default function Footer() {
               </a>
             </h1>
             <p className='absolute bottom-6 uppercase'>
-              Project details can be found at{" "}
+              See{" "}
               <Link
-                href='https://github.com/harryypham'
+                href='https://github.com/harryypham/vibook'
                 className='underline'
               >
                 Github
-              </Link>
+              </Link>{" "}
+              for more
             </p>
           </div>
         </div>
@@ -86,3 +87,5 @@ export default function Footer() {
     </footer>
   )
 }
+
+export default Footer
