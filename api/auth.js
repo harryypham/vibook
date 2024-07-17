@@ -25,6 +25,9 @@ export const signIn = async (email, password) => {
 export const signInWithGoogle = async () => {
   const { user, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
+    // options: {
+    //   redirectTo: "http://localhost:3000/dashboard/"
+    // }
   })
   if (error) {
     throw error

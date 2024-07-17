@@ -11,7 +11,7 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination"
 import { Input } from "@/components/ui/input"
-import BookCard, { BookCardSkeleton } from "@/components/BookCard"
+import { HorizontalBookCard, BookCardSkeleton } from "@/components/BookCard"
 
 import supabase from "@/api/supabaseClient"
 import { searchTitle } from "@/api/database"
@@ -69,14 +69,14 @@ const Browse = ({ page }) => {
       <section className='flex flex-col w-full gap-4'>
         {books.length != 0
           ? books.map((_, idx) => (
-              <BookCard
+              <HorizontalBookCard
                 id={books[idx].id}
                 title={books[idx].title}
                 author={books[idx].author}
                 type={books[idx].type}
                 text={books[idx].text}
                 key={idx}
-              ></BookCard>
+              ></HorizontalBookCard>
             ))
           : Array.from({ length: 5 }, (_, index) => (
               <BookCardSkeleton key={index} />

@@ -73,6 +73,13 @@
   body {
     @apply bg-background text-foreground;
   }
+  @font-face {
+    font-family: "Stratos";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/fonts/Stratos.woff2) format("woff2");
+  }
 }
 
 @font-face {
@@ -90,6 +97,7 @@ body {
   background-size: cover;
   cursor: default !important;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Apply the animation to the BookCard component */
@@ -405,7 +413,8 @@ body {
 
 .wave:nth-of-type(2) {
   top: -175px;
-  animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
+  animation:
+    wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
     swell 7s ease -1.25s infinite;
   opacity: 1;
 }
@@ -498,4 +507,14 @@ body {
   padding: 0.75rem 0.5rem !important;
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
+}
+
+@keyframes arrow-right {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
 }

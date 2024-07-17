@@ -239,7 +239,7 @@ const Landing = () => {
     >
       <audio
         id='background-audio'
-        src='/sounds/sound.wav'
+        src='/sounds/sound.mp3'
         autoPlay
         loop
         onCanPlayThrough={handleAudioLoad}

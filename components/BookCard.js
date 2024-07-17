@@ -7,12 +7,13 @@ import { useGSAP } from "@gsap/react"
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { FaStar } from "react-icons/fa6"
-import { Bookmark, Forward, Heart } from "lucide-react"
+import { Bookmark, Forward, Heart, MoveRight } from "lucide-react"
 import ReactCurvedText from "react-curved-text"
+import Image from "next/image"
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-const BookCard = ({ id, title, author, type, text }) => {
+const HorizontalBookCard = ({ id, title, author, type, text }) => {
   const [isHovered, setIsHovered] = useState(false)
   const ref = useRef()
 
@@ -29,7 +30,7 @@ const BookCard = ({ id, title, author, type, text }) => {
 
   return (
     <div
-      className='relative w-full md:h-[29vh] h-[20vh]'
+      className='relative w-full max-w-[80vw] md:h-[29vh] h-[20vh]'
       style={{ marginTop: "-4px" }}
       ref={ref}
     >
@@ -120,7 +121,48 @@ const BookCard = ({ id, title, author, type, text }) => {
   )
 }
 
-export default BookCard
+const VerticalBookCard = ({ id, title, author, content }) => {
+  return (
+    <Link href={`/book/${id}`}>
+      <div className='w-[26vw] h-[18vw]  flex items-center border-primary border-2 rounded-md hover:border-primary group relative z-10 hover:z-20 transform hover:scale-105 transition-all duration-300 hover:border-black hover:bg-black hover:text-white'>
+        <div className='relative w-1/2 h-full overflow-hidden flex items-center justify-center'>
+          <Image
+            src={`/images/cover_${Math.floor(Math.random() * 10) + 1}.jpeg`}
+            alt='book cover'
+            layout='fill'
+            objectFit='cover'
+            objectPosition='center'
+            className=''
+          />
+        </div>
+        <div className='h-full w-1/2 flex flex-col items-start justify-start mx-3 mt-4'>
+          <p className='text-sm text-primary group-hover:text-[#8ea2ff]'>
+            {author}
+          </p>
+          <h1 className='uppercase font-semibold text-lg'>{title}</h1>
+          <p className='multiline-truncate'>{content}</p>
+          <p className='text-primary flex items-center group-hover:text-[#8ea2ff]'>
+            Read{" "}
+            <MoveRight className='w-4 h-4 ml-1 group-hover:animate-arrow-right' />
+          </p>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+const TypeCard = ({ type, id }) => {
+  return (
+    <div className='relative w-[26vw] h-[18vw] pl-2 pr-4 py-3 rounded-md flex flex-col bg-black text-white border-black border-2 hover:bg-white hover:text-primary hover:border-primary hover:border-2 transition-all duration-300'>
+      <div className='text-2xl font-bold uppercase '>{type}</div>
+      <div className='absolute bottom-[-0.25em] text-[10rem] font-stratos font-extrabold tracking-[-0.09em] self-end'>
+        {id.toString().padStart(2, "0")}
+      </div>
+    </div>
+  )
+}
+
+export { HorizontalBookCard, VerticalBookCard, TypeCard }
 
 export function BookCardSkeleton() {
   return (

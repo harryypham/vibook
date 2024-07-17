@@ -52,6 +52,11 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+        serif: ["Merriweather", "serif"],
+        stratos: ["Stratos", "sans-serif"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -75,6 +80,7 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "move-right": "move-right 1s ease-in-out infinite",
+        'arrow-right': 'arrow-right 1s ease-in-out infinite',
       },
       animationDelay: {
         0: "0s",

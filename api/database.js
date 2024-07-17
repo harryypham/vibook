@@ -11,6 +11,29 @@ export const searchTitle = async (query) => {
   return data
 }
 
+export const searchAuthor = async (query) => {
+  const { data, error } = await supabase
+    .from("books")
+    .select()
+    .textSearch("author", query)
+  if (error) {
+    throw error
+  }
+  return data
+}
+
+export const searchContent = async (query) => {
+  const { data, error } = await supabase
+    .from("books")
+    .select()
+    .textSearch("text", query)
+    .limit(10)
+  if (error) {
+    throw error
+  }
+  return data
+}
+
 export const getAllTypes = async () => {
   //   const { data, error } = await supabase
   //     .from("books")
@@ -28,7 +51,7 @@ export const queryRandomBooks = async (type) => {
     .from("books")
     .select("*")
     .eq("type", type)
-    .range(0, 20)
+    .range(0, 9)
   if (error) {
     throw error
   }
